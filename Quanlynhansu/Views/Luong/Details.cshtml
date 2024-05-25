@@ -1,0 +1,158 @@
+﻿@model Quanlynhansu.Models.LUONG1
+@using System.Data.Entity;
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Khoản trích trừ lương</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @{
+                        Quanlynhansu.Models.QLNSEntities db = new Quanlynhansu.Models.QLNSEntities();
+                        var tuluon = db.TRULUONGs.ToList();
+                        foreach (var item in tuluon.Where(x => x.MANV == @ViewBag.ML))
+                        {
+                            <div class="form-group">
+                                <label for="inputName"> BHXH: </label>&nbsp;&nbsp;<span>@string.Format("{0:#,##0,0}", item.BHXH) <span style="color: red">VND</span></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName"> BHYT: </label>&nbsp;&nbsp;<span>@string.Format("{0:#,##0,0}", item.BHYT) <span style="color: red">VND</span></span>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName"> Bảo hiểm thất nghiệp: </label>&nbsp;&nbsp;<span>@string.Format("{0:#,##0,0}", item.BHTN) <span style="color: red">VND</span></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName"> Tổng : </label>&nbsp;&nbsp;<span>@string.Format("{0:#,##0,0}", (item.BHYT + item.BHXH + item.BHTN)) <span style="color: red">VND</span></span>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Khen thưởng</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @{
+                        Quanlynhansu.Models.QLNSEntities db1 = new Quanlynhansu.Models.QLNSEntities();
+                        var khth = db1.KHENTHUONGs.ToList();
+                        foreach (var item1 in khth.Where(x => x.MANV == @ViewBag.ML))
+                        {
+                            <div class="form-group">
+                                <label for="inputName"> Lý do: </label>&nbsp;&nbsp;<span>@item1.LYDO</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName"> Nội dung: </label>&nbsp;&nbsp;<span>@item1.NOIDUNG</span>
+
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label for="inputName"> Số tiền: </label>&nbsp;&nbsp;<span>@Html.FormatValue(Model.TIENKB, "{0:#,##0,0}") <span style="color: red">VND</span></span>
+                        </div>
+
+                    }
+
+
+                </div>
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Kỷ luật</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @{
+                        Quanlynhansu.Models.QLNSEntities db2 = new Quanlynhansu.Models.QLNSEntities();
+                        var kh = db2.KYLUATs.ToList();
+                        foreach (var item2 in kh.Where(x => x.MANV == @ViewBag.ML))
+                        {
+                            <div class="form-group">
+                                <label for="inputName"> Lý do: </label>&nbsp;&nbsp;<span>@item2.LYDOKL</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName"> Nội dung: </label>&nbsp;&nbsp;<span>@item2.NOIDUNG</span>
+
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label for="inputName"> Số tiền: </label>&nbsp;&nbsp;<span>@Html.FormatValue(Model.TTIENKL, "{0:#,##0,0}") <span style="color: red">VND</span></span>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Phụ cấp</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @{
+                        Quanlynhansu.Models.QLNSEntities db3 = new Quanlynhansu.Models.QLNSEntities();
+                        var phucap = db3.NV_PHUCAP.Include(x=>x.PHUCAP).ToList();
+                        double tien = 0;
+                        foreach (var item3 in phucap.Where(x => x.MANV == @ViewBag.ML))
+                        {
+                            tien += (double)item3.SOTIEN;
+                            <div class="form-group">
+                                <label for="inputName"> Phụ cấp:  </label>&nbsp;&nbsp;<span>@item3.PHUCAP.TENPC</span> :&nbsp;&nbsp; <span>@item3.SOTIEN <span style="color: red">VND</span></span>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label for="inputName"> Tổng tiền: </label>&nbsp;&nbsp;<span>@Html.FormatValue(tien, "{0:#,##0,0}") <span style="color: red">VND</span></span>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+            <!-- /.card -->
+
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-12">
+            <a href="@Url.Action("Index","Luong")" class="btn btn-secondary">Cancel</a>
+        </div>
+    </div>
+</section>

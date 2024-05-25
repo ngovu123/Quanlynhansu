@@ -1,0 +1,90 @@
+﻿@model Quanlynhansu.Models.QUATRINHLENLUONG
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Chi tiết</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div>
+
+
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="inputName"> Mã quyết định</label>
+                <input type="text" id="inputName" class="form-control" value="@Html.DisplayFor(model => model.MAQD)" readonly>
+            </div>
+            <div class="form-group">
+                <label for="inputName"> Mã hợp đồng</label>
+                <input type="text" id="inputName" class="form-control" value="@Html.DisplayFor(model => model.MAHD)" readonly>
+            </div>
+            <div class="form-group">
+                <label for="inputName">Tên nhân viên</label>
+                <input type="text" id="inputName" class="form-control" value="@Html.DisplayFor(model => model.HOPDONG.NHANVIEN.HOTEN)" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName">Loại hợp đồng</label>
+                <input type="text" id="inputName" class="form-control" value="@Html.DisplayFor(model => model.HOPDONG.LOAIHD)" readonly>
+            </div>
+            <div class="form-group">
+                <label for="inputName">Qua trình nâng lương</label>
+                <table class="table table-striped projects" style="overflow-y: hidden; overflow-x: auto;">
+                    <thead>
+                        <tr style="background-color:grey">
+                            <th class="text-center">STT</th>
+                            <th class="text-center">
+                                Hệ số luong
+                            </th>
+                            <th class="text-center">Tháng</th>
+                            <th class="text-center">Năm</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @{
+                            int t = 0;
+                            foreach (var i in ViewBag.QT)
+                            {
+                                t++;
+                                <tr>
+                                    <td class="text-center">@t</td>
+                                    <td class="text-center">@i.HESOLUONG</td>
+                                    <td class="text-center">@i.THANG</td>
+                                    <td class="text-center">@i.NAM</td>
+                                </tr>
+                            }
+                            t = 0;
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+
+    <div class="row">
+        <div class="col-12">
+            <a href="@Url.Action("Index","QuaTrinhNangLuong")" class="btn btn-secondary">Cancel</a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,192 @@
+﻿@using Quanlynhansu.Models
+@model ThongkeViewModel
+
+@{
+    ViewBag.Title = "Thống kê";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="">
+            <div class="">
+                <h1 class="page-header">
+                    Thống kê hệ thống quản lý
+                </h1>
+                @*<ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-dashboard"></i> Thống kê
+                    </li>
+                </ol>*@
+            </div>
+        </div>
+        <div class="row">
+            <!-- nhan vien-->
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-user fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div>Tổng số nhân viên</div>
+                                @{
+                                    // Count the number of employees with STATUS == 1 (Online)
+                                    var countOnline = Model.Employees.Count(nv => nv.STATUS == 1);
+                                    // Count the number of employees with STATUS != 1 (Đã nghĩ việc)
+                                    var countResigned = Model.Employees.Count(nv => nv.STATUS != 1);
+                                }
+                                <div class="huge">@countOnline</div>
+                                <div>Đang làm việc</div>
+
+                                <!-- Add a new block for employees who have resigned -->
+                                <hr />
+                                <div class="huge">@countResigned</div>
+                                <div>Đã nghĩ việc</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="@Url.Action("index","NhanVien")">
+                        <div class="panel-footer">
+                            <span class="pull-left">Xem chi tiết</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Thống kê tổng số bảng Lương -->
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-money fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            @{
+                                double tong = 0;
+                                foreach (var item in Model.Luong1Records)
+                                {
+                                    // Calculate tong here based on LUONG1 data
+                                }
+                            }
+
+                            <div class="huge">
+                                <span>@Model.Luong1Records.Count</span>
+                            </div>
+                            <div>Tổng số bảng lương</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index","Luong")">
+                    <div class="panel-footer">
+                        <span class="pull-left">Tạm tính: @string.Format("{0:#,##0,0}", Model.TotalEarnings) vnđ</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-tasks fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            @{
+                                var countPb = Model.PhongBans.Count;
+                            }
+                            <div class="huge">@countPb</div>
+                            <div>Tổng số phòng ban</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("index","PhongBan")">
+                    <div class="panel-footer">
+                        <span class="pull-left">Xem phòng ban</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-users fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            @{
+                                // Count the number of employees with STATUS == 2 (Đã nhận)
+                                var countDaNhan = Model.HosoTDs.Count(nv => nv.TRANGTHAI == 2);
+                                // Count the number of employees with STATUS == 1 (Chờ duyệt)
+                                var countChoDuyet = Model.HosoTDs.Count(nv => nv.TRANGTHAI == 1);
+                            }
+                            <div class="huge">@countDaNhan</div>
+                            <div>Đã nhận</div>
+
+                            <!-- Add a new block for employees with STATUS == 1 (Chờ duyệt) -->
+                            <hr />
+                            <div class="huge">@countChoDuyet</div>
+                            <div>Chờ duyệt</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("index","HosoTD")">
+                    <div class="panel-footer">
+                        <span class="pull-left">Xem Nhân viên ứng tuyển</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- ... -->
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-check fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            @{
+                                // Count the number of employees with STATUS == 2 (Đã nhận) and ký hợp đồng
+                                var countDaKy = Model.HosoTDs.Count(nv => nv.TRANGTHAI == 2 && nv.STATUS == 2);
+                                // Count the number of employees with STATUS == 2 (Đã nhận) and chưa ký hợp đồng
+                                var countChuaKy = Model.HosoTDs.Count(nv => nv.TRANGTHAI == 2 && nv.STATUS == 1);
+                            }
+                            <div class="huge">@countDaKy</div>
+                            <div>Đã ký hợp đồng</div>
+
+                            <!-- Add a new block for employees with STATUS == 2 (Đã nhận) and chưa ký hợp đồng -->
+                            <hr />
+                            <div class="huge">@countChuaKy</div>
+                            <div>Chưa ký hợp đồng</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("index","HosoTD/kq")">
+                    <div class="panel-footer">
+                        <span class="pull-left">Xem Kết quả tuyển dụng</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- ... -->
+
+
+
+    </div>
+    <!-- /.row -->
+</div>
